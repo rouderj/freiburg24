@@ -1,0 +1,38 @@
+```{r}
+require('R2jags')
+```
+
+```{r}
+m1.mod <-"
+model {
+  for (i in 1:N){
+    Y[i] ~ dnorm(mu, invS2)}
+  mu ~ dnorm(a,1/b)
+  invS2 ~ dgamma(.5,.5*r)
+}
+"
+
+runMod1 = function(Y,M=1000){
+  setup=list(
+    "Y" = Y,
+    "N" = length(Y))
+  prior =list("a"=100,"b"=5^2,"r"=15^2)
+  pars = c("mu","invS2")
+  out=jags(data=c(setup,prior), 
+           parameters=pars, 
+           model.file = textConnection(m1.mod), 
+           n.chains=1,n.iter=M,n.burnin=M/10,n.thin=1)
+  return(out)}
+```
+
+```{r}
+out=runMod1(c(92,115,100,98))
+```
+
+```{r}
+mu=out$BUGSoutput$sims.list$mu
+s2=1/out$BUGSoutput$sims.list$invS2
+hist(mu)
+hist(sqrt(s2))
+```
+

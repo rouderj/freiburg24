@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.21)  26 MAY 2024 12:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.21)  26 MAY 2024 12:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1289,6 +1289,8 @@ Overfull \vbox (2.069pt too high) detected at line 407
 
 ] [19
 
+] [20
+
 ]
 \tf@nav=\write6
 \openout6 = `lec3.nav'.
@@ -1301,10 +1303,10 @@ Overfull \vbox (2.069pt too high) detected at line 407
 
 (./lec3.aux) ) 
 Here is how much of TeX's memory you used:
- 29130 strings out of 476025
- 584548 string characters out of 5790016
- 1859388 words of memory out of 5000000
- 48768 multiletter control sequences out of 15000+600000
+ 29135 strings out of 476025
+ 584592 string characters out of 5790016
+ 1860388 words of memory out of 5000000
+ 48770 multiletter control sequences out of 15000+600000
  599654 words of font info for 144 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,13n,122p,1873b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1321,10 +1323,10 @@ r/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/tex
 live/2023/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2023/
 texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2023/texmf-dist
 /fonts/type1/public/lm/lmtti10.pfb>
-Output written on lec3.pdf (19 pages, 475867 bytes).
+Output written on lec3.pdf (20 pages, 476541 bytes).
 PDF statistics:
- 278 PDF objects out of 1000 (max. 8388607)
- 202 compressed objects within 3 object streams
- 57 named destinations out of 1000 (max. 500000)
+ 284 PDF objects out of 1000 (max. 8388607)
+ 207 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 500000)
  57412 words of extra memory for PDF output out of 61914 (max. 10000000)
 

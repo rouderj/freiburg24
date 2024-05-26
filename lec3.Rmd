@@ -1,0 +1,599 @@
+---
+title: "Introduction To Sampling"
+author: Jeff Rouder
+date:  May, 2022
+
+output:
+  beamer_presentation:
+    theme: "metropolis"
+    fonttheme: "structurebold"
+    fig_caption: false
+    incremental: false
+    
+header-includes   :
+   - \usepackage{bm}
+   - \usepackage{pcl}
+   - \usepackage{amsmath}    
+---
+
+```{r,echo=F,eval=T,warning=F,message=F}
+knitr::opts_chunk$set(echo = FALSE,message=FALSE, warning=FALSE)
+set.seed(1256)
+library(MCMCpack)
+```
+
+## Estimate the parameters in a normal
+
+- I mean, how hard is this
+- $\hat{\mu} = \frac{\sum y_i}{n}$
+- $\hat{\sigma^2} =\frac{\sum(y_i-\bar{y})^2)}{n-1}$
+- $\mbox{CI}=\pm t(n-1,.975)\times\sqrt{n}\times\frac{\hat{\mu}}{\hat{\sigma}}$
+
+## Bayesian...
+
+```{r}
+par(cex=1.5)
+lab=c("Easy","Hard","Impossible")
+x=1:3
+y=rep(2,3)
+plot(x,y,axes=F,ylim=c(1,3),typ='l',ylab="Bayes",xlab="Frequentist")
+axis(1,at=1:3,lab=lab)
+axis(2,at=1:3,lab=lab)
+
+```
+
+
+
+## Sampling as Knowledge
+
+Who Wakes Up First?
+
+Let $X$ denote when Becky wakes up.  It is minutes after 7a.
+
+\[
+X \sim \mbox{Gamma}(2,10)
+\]
+
+Let $Y$ denote when Jeff wakes up.  It is minutes after 6:30a.
+
+\[
+Y \sim \mbox{Gamma}(1,30)
+\]
+
+What is the probability Becky wakes up before Jeff, $Pr(X<Y)$?  
+
+
+## Setup
+
+```{r,echo=F}
+par(cex=1.5)
+t=seq(0,120,.1)
+jeff=dgamma(t,shape=1,scale=30)
+becky=dgamma(t-30,shape=2,scale=10)
+plot(t,becky,typ='l',ylab="Density",xlab="Time after 6:30a (minutes)")
+lines(t,jeff)
+```
+
+## Simulation Code
+
+```{r,eval=F,echo=T}
+M=100000
+j=rgamma(M,shape=1,scale=30)
+b=rgamma(M,shape=2,scale=10)+30
+hist(b,breaks=seq(0,500,2),col=rgb(1,0,0,.5),
+     xlim=c(0,180),prob=T)
+hist(j,add=T,col=rgb(0,1,0,.5),breaks=seq(0,500,2),prob=T)
+print(mean(b<j))
+```
+  
+## Simulations
+
+```{r,echo=F,eval=T}
+M=100000
+j=rgamma(M,shape=1,scale=30)
+b=rgamma(M,shape=2,scale=10)+30
+hist(b,breaks=seq(0,500,2),col=rgb(1,0,0,.5),xlim=c(0,180),prob=T)
+hist(j,add=T,col=rgb(0,1,0,.5),breaks=seq(0,500,2),prob=T)
+print(mean(b<j))
+```
+  
+## MCMC techniques
+
+- Samples from posterior
+- e.g. $(\mu,\sigma^2|\bfY)$
+- Samples are enough to learn
+
+## How To?
+
+- Program Your Own Sampler To Learn About MCMC
+  + fast to execute
+  + you feel smart
+  + insightful
+- JAGS
+  + fast but autocorrelation
+  + great manual
+  + stable
+- stan
+  + best samplers, 
+  + changing, info scattered
+  + very popular (cool kids)
+
+
+## Model + Data
+
+\[
+\begin{aligned}
+Y_i \sim& \mbox{N}(\mu,\sigma^2)\\
+\mu \sim & \mbox{N}(a,b)\\
+\sigma^2 \sim & \mbox{Inverse Gamma}(q,s)
+\end{aligned}
+\]
+
+$Y$= 92, 115, 100, 98
+
+
+## Demo, Roll My Own
+
+\[
+\mu \mid \sigma^2,\bfY \sim \mbox{Normal}(vc,v),\quad v=\left(\frac{N}{\sigma^2}+\frac{1}{b}\right)^{-1}, \quad c=\frac{N\bar{Y}}{\sigma^2}+\frac{a}{b}
+\]
+
+\[
+\sigma^2 \mid \mu, \bfY \sim \mbox{IG}\left(q+\frac{N}{2},s+\frac{SSE}{2}\right)
+\]
+]
+
+## Demo, Roll My Own
+
+```{r,echo=T,include=F}
+library(MCMCpack)
+```
+
+```{r,echo=T}
+Y=c(92,115,100,98)
+ybar=mean(Y)
+N=length(Y)
+a=100
+b=25
+q=.5
+s=.5*115^2
+M=20000 # number of samples
+mu=1:M
+s2=1:M
+mu[1]=100 #initial value
+s2[1]=100 #initial value
+```
+
+## Demo, Roll My Own
+```{r,echo=T}
+for (m in 2:M){
+  v=1/(N/s2[m-1]+1/b)
+  c=N*ybar/s2[m-1]+a/b
+  mu[m]=rnorm(1,c*v,sqrt(v))
+  SSE=sum((y-mu[m])^2)
+  s2[m]=rinvgamma(1,N/2+q,SSE/2+s)
+  }
+```
+  
+## Demo Roll My Own
+```{r}
+par(cex=1.5)
+par(mfrow=c(1,2),mar=c(4,4,2,2))
+plot(mu,typ='l')
+plot(sqrt(s2),typ='l')
+```
+
+## Demo Roll My Own
+```{r}
+par(cex=1.5)
+par(mfrow=c(1,2),mar=c(4,4,2,2))
+hist(mu,breaks=50)
+hist(sqrt(s2),breaks=50)
+```
+
+## JAGS & stan
+
+All further R code will be in separate files.
+
+
+
+
+## Consider This:
+
+1. We wish to estimate how fast each of you are to react to a tone.  When you hear a tone, hit a button.  Pretty boring.
+
+2. Let's assume each person has a *true score.*  This is your speed in the limit of infinitely many trials.  
+
+3. If you know the $i$th person's true score, denoted $\mu_i$, then RT on the $j$th trial, denoted $Y_{ij}$, is distributed as
+\[
+Y_{ij}|\mu_i\sim \mbox{N}(\mu_i,.15^2),
+\]
+where $Y$ is measured in seconds.
+
+4. Suppose we sample people from a population.  Then it is reasonable to think each person's true score is also distributed
+\[
+\mu_i \sim \mbox{N}(.5,.1^2)
+\]
+
+## Consider This
+
+- We wish to estimate $\mu_i$.
+
+- Some ppl recommend sample mean: (J trials)
+\[
+\hat{\mu_i} = \bar{y}_i=\sum_{j=1}^J y_{ij}/J
+\]
+
+- Other ppl recommend the median:
+Order values, pick middle one.
+
+## Jeff's Estimator
+
+- I propose the following *regularized* estimator:
+  + $\bar{y}_i$ is usual sample mean
+  + $s^2_i$ is usual sample variance
+  + $s^2 = \sum_{i=1}^I s^2_i / I$
+  + $\bar{y}$ is grand mean; mean of $\bar{y}_i$:
+    + $\bar{y}= \sum_{i=1}^I \bar{y}_i/I = \sum_{ij} y_{ij}/IJ$ 
+  + $s^2_{\bar{y}}$ is standard error squared; variance of $\bar{y}_i$
+    + $s^2_{\bar{y}} = \sum_i (\bar{y}_i-\bar{y})^2/(I-1)$
+
+\[ \hat{\mu}_i = vc,\] 
+where
+\[
+\begin{aligned}
+v&=\left(\frac{J}{s^2}+\frac{1}{s^2_{\bar{y}}}\right)^{-1}\\
+c_i&=\left(\frac{J\bar{y}_i}{s^2}+\frac{\bar{y}}{s^2_{\bar{y}}}\right)
+\end{aligned}
+\]
+
+## Jeff's Estimator
+
+- Whacky
+- Legitimate as it uses nothing but the data
+- Which of the three is best
+
+## Defining Best
+
+- Generate ground truth $(\mu_1,\ldots,\mu_I)$
+- Generate data $\bfY$
+- Compute estimates $(\hat{\mu}_1,\ldots,\hat{\mu_I})$
+- Compute estimation error: $e_i = \hat{\mu}_i -\mu_i$
+- Compute RMS error: $\mbox{rmse} = \sqrt{\sum_i e^2_i/I}$
+ 
+## Example
+
+
+```{r}
+I=10 #people
+J=9 #trial
+sub=rep(1:I,each=J)
+
+makeTrue=function(I,m,sdPop) rnorm(I,m,sdPop)
+
+makeDat=function(I,J,true,sdTrl) rnorm(I*J,true[sub],sdTrl)
+
+est.mean=function(dat)
+  tapply(dat,sub,mean)
+
+est.median=function(dat)
+  tapply(dat,sub,median)
+
+est.jeff= function(dat){
+  s2=mean(tapply(dat,sub,var))
+  m=est.mean(dat)
+  s2m=var(m)
+  v=1/(J/s2+1/s2m)
+  c=J*m/s2+mean(m)/s2m
+  return(v*c)
+}
+  
+rmse=function(est,true) sqrt(mean((est-true)^2))
+```
+
+```{r}
+cycle=function(I,J,mPop,sdPop,sdTrl){
+  true=makeTrue(I,mPop,sdPop)
+  dat=makeDat(I,J,true,sdTrl)
+  e1=est.mean(dat)
+  e2=est.median(dat)
+  e3=est.jeff(dat)
+  out=1:3
+  out[1]=rmse(e1,true)
+  out[2]=rmse(e2,true)
+  out[3]=rmse(e3,true)
+  names(out)=c("Mean","Median","Jeff's")
+  return(list(true=true,out=out,est=cbind(e1,e2,e3)))
+}
+```
+
+```{r}
+set.seed(123)
+par(cex=1.5)
+g=cycle(I,J,.5,.1,.15)
+true=g$true
+est=g$est
+matplot(true,est,typ='p')
+print(round(g$out,3))
+```
+
+## Do it 10,000 Times
+
+```{r}
+R=1000
+par(cex=1.5)
+val=matrix(nrow=R,ncol=3)
+for (r in 1:R)
+  val[r,]=cycle(I,J,.5,.1,.15)$out
+plot(val[,1],val[,3],col=rgb(1,0,0,.1),pch=19,
+     xlab="Error of Mean",ylab="Jeff's Error")
+abline(0,1)
+print(paste("Proportion of Jeff's Wins:",mean(val[,3]<val[,1])))
+```
+
+## How Did I Do That
+
+My estimator was based on the fact that the data were hierarchical
+
+- People sampled from a population
+- Trials nested in people
+- Two sources of variation
+
+
+
+## Case 1
+
+- Each person reads 10 nouns.
+- How good of a reader is each person.
+
+## True Values
+
+- Let $\mu_i$ denote the true value for the $i$th person
+
+
+## Data + Model
+- Data, $Y_{ij}$, $j$ denotes replicate for $i$th person
+- $Y_{ij} \sim \mbox{N}(\mu_i,\sigma^2)$
+
+   
+```{r}
+I=20
+J=10
+sub=rep(1:I,each=J)
+tMu=sample(seq(500,500+(I-1)*10,10),I)
+tS2=200^2
+y=round(rnorm(I*J,tMu[sub],sqrt(tS2)),1)
+```
+
+## Mean score per person
+
+```{r}
+par(cex=1.5)
+ybar=tapply(y,sub,mean)
+plot(1:I,ybar,ylab="Sample Mean (ms)",xlab="Participant Number",
+     xlim=c(0,20),pch=19,col="red")
+```
+
+## Mean score per person (sorted)
+
+```{r}
+par(cex=1.5)
+ybar=tapply(y,sub,mean)
+o=order(ybar)
+plot(1:I,ybar[o],ylab="Sample Mean (ms)",xlab="Participant Number",
+     xlim=c(0,20),pch=19,col="red")
+```
+
+## Sample Mean vs. True Mean
+```{r}
+par(cex=1.5)
+plot(tMu,ybar,ylab="Sample Mean (ms)",xlab="True Mean",pch=19,col="darkgreen")
+```
+
+## Non-Hierarchical Bayes Model
+
+\[
+\begin{aligned}
+Y_{ij} &\sim \mbox{N}(\mu_i,\sigma^2)\\
+\mu_i &\sim \mbox{N}(a,b)\\
+\sigma^2 &\sim \mbox{IG}(q,s) 
+\end{aligned}
+\]
+
+- $a=600$
+- $b=400^2$
+
+## Non-Hierarchical Bayes Model
+
+Conditional Posteriors via Bayes Rule:
+
+\[ \begin{aligned}
+\mu_i &\sim \mbox{N}(c_iv,v)\\
+v &=\left(\frac{J}{\sigma^2}+\frac{1}{b}\right)\\
+c_i &=\left(\frac{J\bar{Y}_i}{\sigma^2}+\frac{a}{b}\right)
+\end{aligned}
+\]
+
+\[
+\sigma^2 \sim \mbox{IG}(q+IJ/2,s+\mbox{SSE}/2)
+\]
+
+## Plan of Chain
+
+- Sample all $\mu$'s given $\sigma^2$
+- Sample $\sigma^2$ given all$\mu$'s.
+- Repeat
+
+## Results
+
+```{r}
+M=2000
+
+a=600
+b=400^2
+q=2
+s=200^2
+
+mu=matrix(nrow=M,ncol=I)
+s2=1:M
+mu[1,]=ybar
+s2[1]=200^2
+
+for (m in 2:M){
+  v=1/(J/s2[m-1]+1/b)
+  c=J*ybar/s2[m-1]+a/b
+  mu[m,]=rnorm(I,c*v,sqrt(v))
+  scale=s+sum((y-mu[m,sub])^2)/2
+  s2[m]=rinvgamma(1,q+I*J/2,scale=scale)
+}
+
+nonhier=apply(mu,2,mean)
+
+par(cex=1.5)
+plot(ybar,nonhier,ylab="Non-Hierarchical Estimate (ms)",xlab="Sample Mean",pch=19,col='darkblue')
+abline(0,1)
+```
+
+## Hierarchical 
+
+These people can be treated as fixed or random.
+
+- Fixed.  I am interested in John Q. Doe as a unique individual.  Whatever results I find cannot be generalized.  
+- Random.  I sample John Q. Doe from a population and would like to generalize to the population as well.
+
+We treated each person as fixed in the previous case.
+
+## Hierarchical
+
+People as random effects
+
+## Hierarchical
+
+\[
+\begin{aligned}
+Y_{ij} &\sim \mbox{N}(\mu_i,\sigma^2)\\
+\mu_i &\sim \mbox{N}(\eta,\delta)\\
+\sigma^2 &\sim \mbox{IG}(q_1,s_1)\\ 
+\eta & \sim \mbox{N}(a,b)\\
+\delta & \sim \mbox{IG}(q_2,s_2)
+\end{aligned}
+\]
+
+## Hierarchical
+
+- Stage 1: Sample people from a population model
+\[
+\mu_i \sim \mbox{N}(\eta,\delta)
+\]
+
+- Stage 2: Sample observations from each person.
+
+\[
+Y_{ij} \sim \mbox{N}(\mu_i,\sigma^2)
+\]
+
+## Hierarchical
+
+We all act as prior for each other.
+
+## Hierarchical
+Conditional Posteriors
+
+\[ \begin{aligned}
+\mu_i &\sim \mbox{N}(c_iv,v)\\
+v &=\left(\frac{J}{\sigma^2}+\frac{1}{\delta}\right)\\
+c_i &=\left(\frac{J\bar{Y}_i}{\sigma^2}+\frac{\eta}{\delta}\right)
+\end{aligned}
+\]
+
+\[
+\sigma^2 \sim \mbox{IG}(q_1+IJ/2,s_1+\sum_{ij}(Y_{ij}-\mu_i)^2/2)
+\]
+
+## Hierarchical
+Conditional Posteriors
+\[
+\begin{aligned}
+\eta &\sim \mbox{N}(c_0v_0,v_0)\\
+v_0 &=\left(\frac{I}{\delta}+\frac{1}{b}\right)\\
+c_0 &=\left(\frac{I\bar{\mu}}{\delta}+\frac{a}{b}\right)
+\end{aligned}
+\]
+
+\[
+\delta \sim \mbox{IG}(q_2+I/2,s_1+\sum_{i}(\mu_{i}-\eta)^2/2)
+\]
+
+## Hierarchical Results
+
+```{r}
+M=2000
+
+a=600
+b=400^2
+q1=2
+s1=200^2
+q2=2
+s2=50^2
+
+
+mu=matrix(nrow=M,ncol=I)
+s2=1:M
+eta=1:M
+delta=1:M
+
+mu[1,]=ybar
+s2[1]=200^2
+eta[1]=mean(mu[1,])
+delta=50^2
+
+for (m in 2:M){
+  v=1/(J/s2[m-1]+1/delta[m-1])
+  c=J*ybar/s2[m-1]+eta[m-1]/delta[m-1]
+  mu[m,]=rnorm(I,c*v,sqrt(v))
+  scale=s1+sum((y-mu[m,sub])^2)/2
+  s2[m]=rinvgamma(1,q1+I*J/2,scale=scale)
+  v=1/(I/delta[m-1]+1/b)
+  c=I*mean(mu[m,])/delta[m-1]+a/b
+  eta[m]=rnorm(1,v*c,sqrt(v))
+  scale=s2+sum((mu[m,]-eta[m])^2)/2
+  delta[m]=rinvgamma(1,q2+I/2,scale=scale)  
+}
+
+hier=apply(mu,2,mean)
+
+par(cex=1.5)
+plot(ybar,hier,ylab="Hierarchical Estimate (ms)",xlab="Sample Mean",pch=19,col='darkblue')
+abline(0,1)
+```
+
+
+## Sorted by People
+```{r}
+par(cex=1.5)
+ybar=tapply(y,sub,mean)
+o=order(ybar)
+plot(1:I,ybar[o],ylab="Estimates (ms)",
+     xlab="Participant Number",
+     xlim=c(0,20),pch=19,col="red")
+lines(1:I,ybar[o],col='darkred')
+lines(1:I,hier[o],col='darkblue')
+points(1:I,hier[o],pch=19,col="blue")
+legend(0,700,c("Non-Hier","Hier"),col=c("red","blue"),pch=19)
+```
+
+## Versus True Values
+
+```{r}
+par(cex=1.5)
+plot(tMu,ybar,ylab="Estimate (ms)",xlab="True Mean",pch=19,col="red")
+points(tMu,hier,pch=19,col="blue")
+abline(0,1)
+par(xpd=T)
+legend(500,750,c("Non-Hier","Hier"),col=c("red","blue"),pch=19,bg="white")
+par(xpd=F)
+```
+
+
+
+

@@ -1,0 +1,26 @@
+---
+title: "Hierarchical Signal Detection Theory"
+author: Jeff Rouder
+date:  May, 2024
+
+output:
+  beamer_presentation:
+    theme: "metropolis"
+    fonttheme: "structurebold"
+    fig_caption: false
+    incremental: false
+    
+header-includes   :
+   - \usepackage{bm}
+   - \usepackage{pcl}
+   - \usepackage{amsmath}    
+---
+
+```{r,echo=F,eval=T,warning=F,message=F}
+knitr::opts_chunk$set(echo = FALSE,message=FALSE, warning=FALSE)
+set.seed(1256)
+library(MCMCpack)
+```
+
+
+

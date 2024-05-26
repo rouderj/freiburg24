@@ -1,0 +1,104 @@
+---
+title: "Demystifying Hierarhcical Models"
+author: Jeff Rouder
+date:  May, 2024
+
+output:
+  beamer_presentation:
+    theme: "metropolis"
+    fonttheme: "structurebold"
+    fig_caption: false
+    incremental: false
+    
+header-includes   :
+   - \usepackage{bm}
+   - \usepackage{pcl}
+   - \usepackage{amsmath}    
+---
+
+
+## Hierarchical Models Seem Magical
+
+\[\begin{aligned}
+Y_{ij} &\sim \mbox{N}(\mu_i,\sigma^2)\\
+\mu_i &\sim \mbox{N}(\nu,\delta)
+\end{aligned}
+\]
+
+is the same as:
+
+\[\begin{aligned}
+Y_{ij} &\sim \mbox{N}(\nu+\mu_i,\sigma^2)\\
+\mu_i &\sim \mbox{N}(0,\delta)
+\end{aligned}
+\]
+
+More standard:
+\[\begin{aligned}
+Y_{ij} &\sim \mbox{N}(\mu+\mu_i,\sigma^2)\\
+\alpha_i &\sim \mbox{N}(0,\delta)
+\end{aligned}
+\]
+
+If there are two people, there are three parameters, and that seems like magic!
+
+## What Happens With 2 People and 3 Parameters?
+
+```{R,echo=T}
+source('jags/normJ.R')
+```
+
+## What Happens With 2 People and 3 Parameters?
+```{R,echo=T}
+sub=rep(1:2,each=100)
+tMu=c(8,12)
+y=rnorm(200,tMu[sub],5)
+dat=data.frame(sub,y)
+prior=list("a"=10,"b"=10^2,'r1'=10^2,'r2'=10^2)
+out=runM2a(dat,prior)
+alpha=out$BUGSoutput$sims.list$alpha
+mu=out$BUGSoutput$sims.list$mu
+```
+
+## How Well Should We Be Able To Localize Parameter?
+
+SEM = $\sigma/\sqrt{n}$ = 5/10 =.5
+
+We should know all parameter $\pm 1$.
+
+## Yet, Can't Localize Parameters Well
+
+```{r,echo=T}
+hist(mu)
+```
+
+## Can't Localize Parameters Well
+
+```{r,echo=T}
+hist(alpha[,1])
+```
+
+## Correlated Parameters ...
+
+```{r}
+par(mfrow=c(1,2))
+plot(mu,alpha[,1])
+plot(alpha)
+```
+## What is estimable?
+
+```{r}
+par(mfrow=c(1,2))
+hist(mu+alpha[,2])
+hist(alpha[,2]-alpha[,1])
+```
+
+## Morale of the Story
+
+There is no magic here.  Usually, it matters little how we parameterized the hierarchical models because the cost of one parameter is not great if there are a lot of people.  
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.21)  26 MAY 2024 11:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.21)  27 MAY 2024 12:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1257,7 +1257,7 @@ n input line 419.
 ] [30
 
 ]
-Overfull \vbox (11.49118pt too high) detected at line 538
+Overfull \vbox (11.49118pt too high) detected at line 537
  []
 
 [31
@@ -1268,7 +1268,7 @@ Overfull \vbox (11.49118pt too high) detected at line 538
 <smarties.jpg, id=284, 602.25pt x 401.5pt>
 File: smarties.jpg Graphic file (type jpg)
 <use smarties.jpg>
-Package pdftex.def Info: smarties.jpg  used on input line 562.
+Package pdftex.def Info: smarties.jpg  used on input line 561.
 (pdftex.def)             Requested size: 307.29965pt x 204.86642pt.
 [33
 
@@ -1281,7 +1281,7 @@ Package pdftex.def Info: smarties.jpg  used on input line 562.
 File: lec2_files/figure-beamer/unnamed-chunk-9-1.pdf Graphic file (type pdf)
 <use lec2_files/figure-beamer/unnamed-chunk-9-1.pdf>
 Package pdftex.def Info: lec2_files/figure-beamer/unnamed-chunk-9-1.pdf  used o
-n input line 589.
+n input line 588.
 (pdftex.def)             Requested size: 307.29146pt x 132.00546pt.
 [36
 
@@ -1293,7 +1293,7 @@ n input line 589.
 File: lec2_files/figure-beamer/unnamed-chunk-10-1.pdf Graphic file (type pdf)
 <use lec2_files/figure-beamer/unnamed-chunk-10-1.pdf>
 Package pdftex.def Info: lec2_files/figure-beamer/unnamed-chunk-10-1.pdf  used 
-on input line 602.
+on input line 601.
 (pdftex.def)             Requested size: 307.29146pt x 204.50029pt.
 [38
 
@@ -1311,7 +1311,7 @@ pt>
 File: lec2_files/figure-beamer/unnamed-chunk-11-1.pdf Graphic file (type pdf)
 <use lec2_files/figure-beamer/unnamed-chunk-11-1.pdf>
 Package pdftex.def Info: lec2_files/figure-beamer/unnamed-chunk-11-1.pdf  used 
-on input line 655.
+on input line 654.
 (pdftex.def)             Requested size: 307.28441pt x 177.73401pt.
 [43
 
@@ -1321,7 +1321,7 @@ pt>
 File: lec2_files/figure-beamer/unnamed-chunk-12-1.pdf Graphic file (type pdf)
 <use lec2_files/figure-beamer/unnamed-chunk-12-1.pdf>
 Package pdftex.def Info: lec2_files/figure-beamer/unnamed-chunk-12-1.pdf  used 
-on input line 660.
+on input line 659.
 (pdftex.def)             Requested size: 307.28441pt x 177.73401pt.
 [44
 
@@ -1331,7 +1331,7 @@ pt>
 File: lec2_files/figure-beamer/unnamed-chunk-13-1.pdf Graphic file (type pdf)
 <use lec2_files/figure-beamer/unnamed-chunk-13-1.pdf>
 Package pdftex.def Info: lec2_files/figure-beamer/unnamed-chunk-13-1.pdf  used 
-on input line 665.
+on input line 664.
 (pdftex.def)             Requested size: 307.28441pt x 177.73401pt.
 [45
 
@@ -1341,7 +1341,7 @@ t>
 File: lec2_files/figure-beamer/unnamed-chunk-14-1.pdf Graphic file (type pdf)
 <use lec2_files/figure-beamer/unnamed-chunk-14-1.pdf>
 Package pdftex.def Info: lec2_files/figure-beamer/unnamed-chunk-14-1.pdf  used 
-on input line 670.
+on input line 669.
 (pdftex.def)             Requested size: 307.28664pt x 177.95107pt.
 [46
 
@@ -1351,7 +1351,7 @@ t>
 File: lec2_files/figure-beamer/unnamed-chunk-15-1.pdf Graphic file (type pdf)
 <use lec2_files/figure-beamer/unnamed-chunk-15-1.pdf>
 Package pdftex.def Info: lec2_files/figure-beamer/unnamed-chunk-15-1.pdf  used 
-on input line 675.
+on input line 674.
 (pdftex.def)             Requested size: 307.28664pt x 177.95107pt.
 [47
 
@@ -1368,7 +1368,7 @@ on input line 675.
 (./lec2.aux) ) 
 Here is how much of TeX's memory you used:
  28977 strings out of 476025
- 584176 string characters out of 5790016
+ 584192 string characters out of 5790016
  1859388 words of memory out of 5000000
  48538 multiletter control sequences out of 15000+600000
  584269 words of font info for 138 fonts, out of 8000000 for 9000
@@ -1388,7 +1388,7 @@ live/2023/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2023/
 texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2023/texmf-dist/
 fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type
 1/public/lm/lmtt10.pfb>
-Output written on lec2.pdf (47 pages, 476948 bytes).
+Output written on lec2.pdf (47 pages, 476918 bytes).
 PDF statistics:
  550 PDF objects out of 1000 (max. 8388607)
  416 compressed objects within 5 object streams

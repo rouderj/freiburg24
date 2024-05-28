@@ -366,7 +366,7 @@ f(\mu|\sigma^2,y_1,\ldots,y_N) \propto & \frac{1}{(2\pi)^{N/2}(\sigma^2)^{N/2}}\
 
 6. The above may be reduced (a small miracle occurs here, see Rouder and Lu, 2005) to
 \[
-f(\mu|\sigma^2,y_1,\ldots,y_N) \propto \frac{1}{\sqrt{2\pi v}}\exp\left(-\frac{(y-cv)^2}{2v}\right),
+f(\mu|\sigma^2,y_1,\ldots,y_N) \propto \frac{1}{\sqrt{2\pi v}}\exp\left(-\frac{(\mu-cv)^2}{2v}\right),
 \]
 where
 \[v=\left(\frac{N}{\sigma^2}+\frac{1}{b}\right)^{-1}\]

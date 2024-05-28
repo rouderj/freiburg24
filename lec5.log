@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.21)  26 MAY 2024 15:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.21)  27 MAY 2024 17:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1217,24 +1217,70 @@ Overfull \vbox (96.4296pt too high) detected at line 261
 
 [4
 
+] [5
+
 ]
 \openout4 = `lec5.vrb'.
 
 (./lec5.vrb
-<lec5_files/figure-beamer/unnamed-chunk-3-1.pdf, id=48, 665.48625pt x 465.74pt>
-
+<lec5_files/figure-beamer/unnamed-chunk-3-1.pdf, id=54, 665.48625pt x 463.7325p
+t>
 File: lec5_files/figure-beamer/unnamed-chunk-3-1.pdf Graphic file (type pdf)
 <use lec5_files/figure-beamer/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: lec5_files/figure-beamer/unnamed-chunk-3-1.pdf  used o
 n input line 9.
-(pdftex.def)             Requested size: 307.29515pt x 215.06026pt.
+(pdftex.def)             Requested size: 307.29515pt x 214.13327pt.
 )
-Overfull \vbox (29.8809pt too high) detected at line 272
+Overfull \vbox (27.43306pt too high) detected at line 279
  []
 
-[5
+[6
 
  <./lec5_files/figure-beamer/unnamed-chunk-3-1.pdf>]
+\openout4 = `lec5.vrb'.
+
+(./lec5.vrb
+<lec5_files/figure-beamer/unnamed-chunk-4-1.pdf, id=69, 671.50874pt x 465.74pt>
+
+File: lec5_files/figure-beamer/unnamed-chunk-4-1.pdf Graphic file (type pdf)
+<use lec5_files/figure-beamer/unnamed-chunk-4-1.pdf>
+Package pdftex.def Info: lec5_files/figure-beamer/unnamed-chunk-4-1.pdf  used o
+n input line 9.
+(pdftex.def)             Requested size: 307.2891pt x 213.12726pt.
+)
+Overfull \vbox (27.9479pt too high) detected at line 290
+ []
+
+[7
+
+ <./lec5_files/figure-beamer/unnamed-chunk-4-1.pdf>]
+\openout4 = `lec5.vrb'.
+
+(./lec5.vrb
+<lec5_files/figure-beamer/unnamed-chunk-5-1.pdf, id=85, 689.57625pt x 431.6125p
+t>
+File: lec5_files/figure-beamer/unnamed-chunk-5-1.pdf Graphic file (type pdf)
+<use lec5_files/figure-beamer/unnamed-chunk-5-1.pdf>
+Package pdftex.def Info: lec5_files/figure-beamer/unnamed-chunk-5-1.pdf  used o
+n input line 11.
+(pdftex.def)             Requested size: 307.2866pt x 192.33368pt.
+<lec5_files/figure-beamer/unnamed-chunk-6-1.pdf, id=86, 679.53876pt x 465.74pt>
+
+File: lec5_files/figure-beamer/unnamed-chunk-6-1.pdf Graphic file (type pdf)
+<use lec5_files/figure-beamer/unnamed-chunk-6-1.pdf>
+Package pdftex.def Info: lec5_files/figure-beamer/unnamed-chunk-6-1.pdf  used o
+n input line 22.
+(pdftex.def)             Requested size: 307.28275pt x 210.60442pt.
+)
+Overfull \vbox (329.43585pt too high) detected at line 314
+ []
+
+[8
+
+ <./lec5_files/figure-beamer/unnamed-chunk-5-1.pdf> <./lec5_files/figure-beamer
+/unnamed-chunk-6-1.pdf>] [9
+
+]
 \tf@nav=\write6
 \openout6 = `lec5.nav'.
 
@@ -1246,10 +1292,10 @@ Overfull \vbox (29.8809pt too high) detected at line 272
 
 (./lec5.aux) ) 
 Here is how much of TeX's memory you used:
- 28955 strings out of 476025
- 580404 string characters out of 5790016
+ 29001 strings out of 476025
+ 581748 string characters out of 5790016
  1860388 words of memory out of 5000000
- 48661 multiletter control sequences out of 15000+600000
+ 48688 multiletter control sequences out of 15000+600000
  595283 words of font info for 132 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,13n,122p,1873b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1262,10 +1308,10 @@ t/fonts/type1/public/lm/lmsso8.pfb></usr/local/texlive/2023/texmf-dist/fonts/ty
 pe1/public/lm/lmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public
 /lm/lmtk10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmtt10
 .pfb>
-Output written on lec5.pdf (5 pages, 168370 bytes).
+Output written on lec5.pdf (9 pages, 295247 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
- 78 compressed objects within 1 object stream
- 15 named destinations out of 1000 (max. 500000)
- 51248 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 170 PDF objects out of 1000 (max. 8388607)
+ 119 compressed objects within 2 object streams
+ 27 named destinations out of 1000 (max. 500000)
+ 51263 words of extra memory for PDF output out of 51595 (max. 10000000)
 

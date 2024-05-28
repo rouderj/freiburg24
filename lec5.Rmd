@@ -1,5 +1,5 @@
 ---
-title: "Demystifying Hierarhcical Models"
+title: "Loose Ends"
 author: Jeff Rouder
 date:  May, 2024
 
@@ -27,15 +27,10 @@ Y_{ij} &\sim \mbox{N}(\mu_i,\sigma^2)\\
 
 is the same as:
 
-\[\begin{aligned}
-Y_{ij} &\sim \mbox{N}(\nu+\mu_i,\sigma^2)\\
-\mu_i &\sim \mbox{N}(0,\delta)
-\end{aligned}
-\]
 
 More standard:
 \[\begin{aligned}
-Y_{ij} &\sim \mbox{N}(\mu+\mu_i,\sigma^2)\\
+Y_{ij} &\sim \mbox{N}(\mu+\alpha_i,\sigma^2)\\
 \alpha_i &\sim \mbox{N}(0,\delta)
 \end{aligned}
 \]
@@ -93,11 +88,42 @@ hist(mu+alpha[,2])
 hist(alpha[,2]-alpha[,1])
 ```
 
+
+## What about the original model?
+
+\[\begin{aligned}
+Y_{ij} &\sim \mbox{N}(\mu_i,\sigma^2)\\
+\mu_i &\sim \mbox{N}(\nu,\delta)
+\end{aligned}
+\]
+
+```{r}
+out=runM2(dat,prior)
+mu=out$BUGSoutput$sims.list$mu
+nu=out$BUGSoutput$sims.list$eta
+```
+
+
+## Yet, Can't Localize Population Parameter
+
+```{r,echo=T}
+hist(nu)
+hist(mu[,1])
+```
+
+
 ## Morale of the Story
 
 There is no magic here.  Usually, it matters little how we parameterized the hierarchical models because the cost of one parameter is not great if there are a lot of people.  
+##
 
 
+
+
+
+## Discrete Process Models
+
+see 2ht
 
 
 

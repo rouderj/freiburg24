@@ -18,6 +18,12 @@ knitr::opts_chunk$set(echo = FALSE,message=FALSE, warning=FALSE)
 
 ##
 
+Follow along at:
+
+https://github.com/rouderj/freiburg24
+
+##
+
 Consider the dreaded disease **Dipsidoodleitis**. Dipsidoodleitis is detected by a blood test which measures dipsidoodlamines in the blood. Values for people without the disease are normally distributed with $M=70$ and $sd=10$.  Value for people with the disease are $M=84$, $sd=14$. Baserates are know as follows: 10% of people have the disease.  
 
 You happen to have a dipsidoodleamine value of 88.  What is the probability that you are diseas free?

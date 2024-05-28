@@ -202,3 +202,66 @@ plot(apply(mu,2,mean))
 alpha <-extract(samples)$alpha
 sigma <- extract(samples)$sigma
 ```
+
+
+
+
+```{r}
+m5C <- "
+
+data {          
+  int<lower=0> n;
+  int<lower=0> I;
+  vector[n] x;
+  vector[n] y;
+  int sub[n];
+}
+
+parameters {
+  vector[I] mu;
+  vector[I] alpha;
+  real<lower=0> sigma2;
+  real<lower=0> delta2M;
+  real<lower=0> delta2A;
+  real nuMu;
+  real nuAlpha;
+}
+
+transformed parameters {
+  real<lower=0> sigma;
+  real<lower=0> deltaM;
+  real<lower=0> deltaA;
+  vector[n] center;
+  deltaM = sqrt(delta2M);
+  deltaA = sqrt(delta2A);
+  sigma = sqrt(sigma2);
+  for (i in 1:n){
+    center[i] = mu[sub[i]]+x[i]*alpha[sub[i]];}   
+}
+
+model {
+  mu ~ normal(nuMu,deltaM);
+  alpha ~ normal (nuAlpha,deltaA);
+  nuAlpha~ normal(0,1);
+  nuMu~ normal(0,1);
+  delta2M ~ inv_gamma(.5,.5); 
+  delta2A ~ inv_gamma(.5,.5);
+  sigma2 ~ inv_gamma(.5,.5);
+  y ~ lognormal(center,sigma);
+}"
+```
+
+
+```{r}
+y=dat$rt
+n=length(y)
+I=length(unique(sub))
+x=dat$cond-3/2
+data <- list(y=y, n=n, x=x, sub=sub, I=I)
+m5 <- stan_model(model_code = m5C)
+samples <- sampling(m5, data=data, iter=2000, chains=1)
+mu <- extract(samples)$mu
+plot(apply(mu,2,mean))
+alpha <-extract(samples)$alpha
+sigma <- extract(samples)$sigma
+```

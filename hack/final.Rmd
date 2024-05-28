@@ -1,0 +1,8 @@
+---
+author: Class
+date: May 29th, 2024
+title: Group Project in Individual Differences
+output: pdf_document
+---
+
+

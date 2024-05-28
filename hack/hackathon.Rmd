@@ -1,0 +1,59 @@
+---
+title: Hackathon Data
+author: Jeff
+date: May, 2024
+output: pdf_document
+header-includes   :
+   - \usepackage{bm}
+   - \usepackage{amsmath}
+   - \usepackage{setspace}
+   - \usepackage{pcl}
+---
+
+How does overall positivity about life affect cognitive performance?
+
+We ask 200 participants to rate their general affect a total of 20 occasions with EMA.  On each occasion, they are given a prompt about how then feel and they need to respond on the following 4-point scale: "great", "good", "ehh", "piss off".  
+
+Participants also perform a process dissociation task (50 include trials; 50 exclude trials) and a Stroop RT task (50 congruent, 50 incongruent).  What is the correlation among the three tasks and how well do you know them?
+
+# Setup
+
+**General-Affect Team.**  The goal of this team is to model the EMA likert data.  The output is a single parameter $\theta_{i1}$, $i=1,\ldots,I$ for each person.  The "1" is for your task.  You should have one leader, one person implement stan and another implement jags. 
+
+\[
+\calM_1: \bfY \sim \mbox{Model}(\bftheta_1,\bfeta)
+\]
+
+- be sure to agree on the model
+- data in `datEMA.RDS`
+
+**Process Dissociation Team.**  The goal of this team is to model the process dissociation data.  The output is a parameter pair per person, $\theta_{i2}$ is the recollection; $\theta_{i3}$ is the familiarity.  You should have one leader, one person implement stan and another implement jags.
+
+\[
+\calM_2: \bfY \sim \mbox{Model}(\bftheta_2,\bftheta_3)
+\]
+
+- be sure to agree on the model
+- data in `datPD.RDS`
+
+**Stroop Team.**  The goal of this team is to model the Stroop data.  The output is a parameter pair per person, $\theta_{i4}$ is overall speed; $\theta_{i5}$ is the Stroop effect.  You should have one leader, one person implement stan and another implement jags.
+
+\[
+\calM_3: \bfY \sim \mbox{Model}(\bftheta_4,\bftheta_5,\bfeta)
+\]
+
+- be sure to agree on the model
+- data in `datRT.RDS`
+
+**Multivariate Team.**  Your job is to develop a model to estimate correlations from multivariate data.  You are the hierarchical backend.  Your input is $\bftheta_i=(\theta_{i1},\ldots,\theta_{i5})'$, the vector of five true scores.  You provide the multivariate model.  You should have one leader, one person implement stan and another implement jags.
+
+
+- Let's agree on a model
+- Let's simulate data to develop it while we wait
+
+
+# Presentations
+
+Teams will work together, interactively to provide an assessment of correlations, and, importantly, a measure of uncertainty in these correlations.
+
+Each team will prove a 20 minute talk at 3:00.  I will use the balance of the time thereafter to talk about a different approach to Bayesian analysis that emphasizes updating rather than posterior outputs.

@@ -1,15 +1,16 @@
+library(tidyverse)
 
-dat <- readRDS("datPD.RDS")
+data <- read_rds("datPD.RDS")
+data <- tibble(dat)
 
-data <- dat |>
+data <- 
+  data |>
   dplyr::group_by(sub,cond) |>
   dplyr::summarize(
     Y = sum(resp),
     N = length(resp)
-  ) |> 
-  as.data.frame(.)
-data
-
+  )
+data <- data %>% ungroup()
 
 #-------------
 
@@ -101,7 +102,24 @@ stan_ls <- list(
   Y = data$Y
 )
 
-file <- file.path("./", "pdp.stan")
-mdl <- cmdstanr::cmdstan_model(file, pedantic = TRUE)
-fit <- mdl$sample(data=stan_ls, parallel_chains = 4)
-fit$cmdstan_diagnose()
+# file <- file.path("./", "pdp.stan")
+file <- "pdp.stan"
+
+mdl <- rstan::stan_model(file)
+
+fit <- 
+  sampling(
+  mdl,
+  list(
+    N = nrow(data)/2,
+    Y = data$Y
+  )
+  
+)
+
+
+
+
+# mdl <- cmdstanr::cmdstan_model(file, pedantic = TRUE)
+# fit <- mdl$sample(data=stan_ls, parallel_chains = 4)
+# fit$cmdstan_diagnose()

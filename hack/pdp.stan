@@ -3,8 +3,8 @@ data {
   array[2*N] int Y;
 }
 parameters {
-    vector[N] R;
-    vector[N] A;
+    vector<lower=0,upper=1>[N] R;
+    vector<lower=0,upper=1>[N] A;
 }
 transformed parameters{
     vector[N] R_probit = Phi(R);

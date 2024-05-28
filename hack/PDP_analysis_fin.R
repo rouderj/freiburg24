@@ -1,3 +1,4 @@
+
 dat <- readRDS("datPD.RDS")
 
 data <- dat %>%
@@ -12,7 +13,7 @@ data
 
 #-------------
 
-#A und F for each person
+#A und R for each person
 
 mod3 <- "
 model{
@@ -53,13 +54,16 @@ hist(A)
 
 #-------------
 
-#A und F for each person from normal
+#A und R for each person from normal
 
 mod3 <- "
 model{
   for (i in 1:N){
-    R[i] ~ dunif(a,b)
-    A[i] ~ dunif(a,b)
+    probit(R[i]) = thetaR[i]
+    thetaR[i] ~ dnorm(a,b)
+    
+    probit(A[i]) = thetaA[i]
+    thetaA[i] ~ dnorm(a,b)
       
     p_inc[i] = R[i]+(1-R[i])*A[i]
     p_exc[i] = (1-R[i])*A[i]
@@ -74,9 +78,9 @@ runMod=function(data,M=1000){
   setup=list(
     "Y" = data$Y,
     "N" = length(unique(data$sub)))
-  prior =list("a"=0,
-              "b"=1)
-  pars = c("R","A")
+  prior =list("a"=0.5,
+              "b"=0.5)
+  pars = c("R","A","thetaR", "thetaA")
   out=jags(data=c(setup, prior), 
            parameters=pars, 
            model.file = textConnection(mod3), 

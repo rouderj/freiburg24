@@ -1,12 +1,12 @@
 
 dat <- readRDS("datPD.RDS")
 
-data <- dat %>%
-  group_by(sub,cond) %>%
-  summarize(
+data <- dat |>
+  dplyr::group_by(sub,cond) |>
+  dplyr::summarize(
     Y = sum(resp),
     N = length(resp)
-  ) %>%
+  ) |> 
   as.data.frame(.)
 data
 
@@ -73,7 +73,6 @@ model{
   }
 }"
 
-
 runMod=function(data,M=1000){
   setup=list(
     "Y" = data$Y,
@@ -95,3 +94,14 @@ hist(R)
 A=out$BUGSoutput$sims.list$A
 hist(A)
 
+#  Stan model
+#
+stan_ls <- list(
+  N = length(unique(data$sub)), 
+  Y = data$Y
+)
+
+file <- file.path("./", "pdp.stan")
+mdl <- cmdstanr::cmdstan_model(file, pedantic = TRUE)
+fit <- mdl$sample(data=stan_ls, parallel_chains = 4)
+fit$cmdstan_diagnose()
